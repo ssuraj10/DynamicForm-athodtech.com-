@@ -153,4 +153,20 @@ export class DyanamicFormComponent implements OnInit {
     console.log(" Value is : ", value.target.value );
  }
 
+ editedList(eventData:any) {
+  console.log(eventData)
+  const formGroupFields = <any>{};
+  for(const field of Object.keys(eventData)){
+  
+    const fieldProps = this.json[field];
+    console.log(fieldProps)
+    formGroupFields[field] = new FormControl(fieldProps || '',this.mapValidators(fieldProps));
+    this.fields.push({...fieldProps,fieldName:field})
+  }
+  return formGroupFields;
+  // this.favBooks = this.favBooks.concat({
+  //   title: eventData.title,
+  // });
+}
+
 }

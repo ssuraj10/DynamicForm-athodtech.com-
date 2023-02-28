@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-table',
@@ -6,11 +6,18 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./table.component.css']
 })
 export class TableComponent implements OnInit {
-  @Input() List: any[] = []
+  @Input() List: any[] = [];
+ 
   constructor() { }
 
   ngOnInit(): void {
     console.log(this.List)
   }
+
+  remove(index:number){
+    this.List.splice(index,1)
+
+  }
+ 
 
 }

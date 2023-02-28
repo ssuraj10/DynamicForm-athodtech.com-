@@ -1,0 +1,28 @@
+    <table  class="w-full border border-gray-300 text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead  class=" text-gray-700 uppercase bg-gray-100 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th>S.NO</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Gender</th>
+                <th>Education</th>
+               
+            </tr>
+        </thead>
+
+        <tbody *ngIf="List.length else nodata">
+            <tr  *ngFor="let data of List;index as i" class="border-b border-r dark:bg-gray-800 dark:border-gray-700 odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700 pt-2">
+                <td>{{i+1}}</td>
+                <td>{{data.Name}}</td>
+                <td>{{data.Age}}</td>
+                <td>{{data.Gender}}</td>
+                <td>{{data.Education}}</td>
+                
+            </tr>
+           
+        </tbody>
+    </table>
+
+<ng-template #nodata>
+   <p>No Data Found</p>
+</ng-template>

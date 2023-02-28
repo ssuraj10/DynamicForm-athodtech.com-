@@ -1,0 +1,82 @@
+<div class="m-5 grid grid-cols-2 gap-x-2">
+
+    <div class="card  shadow border-2 border-gray-200 p-5 ">
+        <form [formGroup]="form">
+            <div class="flex flex-row " *ngFor="let field of fields;index as i">
+                <div class="w-1/4 mb-2 flex items-center h-[36px]">
+                    <label>{{field.label}}<span>*</span></label>
+
+                </div>
+                <div class="w-3/4">
+                    <ng-container [ngSwitch]="field.type">
+                        <input [type]="'text'" *ngSwitchCase="'Text'" formControlName="{{field.label}}" class="shadow appearance-none border rounded
+                         w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="{{field.label}}" type="text" placeholder="{{field.label}}">
+
+                    </ng-container>
+                    <ng-container [ngSwitch]="field.type">
+                        <input *ngSwitchCase="'Numeric'" [type]="'number'" formControlName="{{field.label}}" class="shadow appearance-none border rounded
+                         w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                            id="{{field.label}}" type="text" placeholder="{{field.label}}">
+                    </ng-container>
+                    <ng-container [ngSwitch]="field.type">
+                        <div *ngSwitchCase="'RadioButton'" class="flex items-center mb-4">
+                            <span *ngFor="let data of field.subItems">
+                                <input id="{{data.label}}" [type]="'radio'" formControlName="{{field.label}}"
+                                    value="{{data.label}}" (change)="onItemChange($event)" name="{{field.label}}" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 
+                             focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 
+                             focus:ring-2 dark:bg-gray-700 dark:border-gray-600 ">
+                                <label for="{{data.label}}1"
+                                    class="ml-2 mr-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{data.label}}</label>
+                            </span>
+                        </div>
+                    </ng-container>
+                    <ng-container [ngSwitch]="field.type">
+                        <div *ngSwitchCase="'Single Choice'" class="inline-block relative w-64">
+                            <select [formControlName]="field.fieldName"
+                                class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+                                <option *ngFor="let data of field.subItems" [value]="data.label">{{data.label}}</option>
+
+                            </select>
+                            <div
+                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20">
+                                    <path
+                                        d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                                </svg>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <p *ngIf="form.controls[field.label].dirty && !form.controls[field.label].valid"
+                        class="text-red-500">*{{field.label}} is required</p>
+                        
+                        <div *ngIf="form.controls[field.label].errors?.minlength">
+                            {{field.label}} must be at least {{form.controls[field.label].errors?.minlength.requiredLength}} characters long.
+                       </div> 
+                       <div *ngIf="form.controls[field.label].errors?.maxlength">
+                        {{field.label}} not more than {{form.controls[field.label].errors?.maxlength.requiredLength}} characters long.
+                   </div> 
+
+                </div>
+
+            </div>
+
+            <button (click)="submit()"
+                class="flex justify-end bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Submit
+            </button>
+        </form>
+
+
+        <p>{{this.form.value | json}}</p>
+
+    </div>
+    <div class="card shadow ">
+        <app-table [List]="listarray"></app-table>
+    </div>
+
+
+
+
+</div>

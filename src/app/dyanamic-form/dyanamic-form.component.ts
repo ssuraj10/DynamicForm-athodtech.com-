@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 
@@ -8,10 +8,12 @@ export interface form {
 @Component({
   selector: 'app-dyanamic-form',
   templateUrl: './dyanamic-form.component.html',
-  styleUrls: ['./dyanamic-form.component.css']
+  styleUrls: ['./dyanamic-form.component.css'],
+  encapsulation:ViewEncapsulation.None
 })
 export class DyanamicFormComponent implements OnInit {
-
+  @Input() list:any[] = []; 
+ 
   json:any = [
     {
        label:"Name",
@@ -128,7 +130,7 @@ export class DyanamicFormComponent implements OnInit {
     const formValidators = [];
     if (validators) {
       for (const validation of Object.keys(validators)) {
-        if (validation === 'required') {
+        if (validation === 'mandatory') {
           formValidators.push(Validators.required);
         } else if (validation === 'minLength') {
           formValidators.push(Validators.minLength(validators[validation]));
@@ -142,6 +144,11 @@ export class DyanamicFormComponent implements OnInit {
   }
  
   submit(){
+    console.log(this.form.invalid)
+    if(this.form.invalid){
+      return
+    }
+
     console.log(this.form.controls)
     this.listarray.push(this.form.value);
     this.form.reset();
@@ -164,9 +171,7 @@ export class DyanamicFormComponent implements OnInit {
     this.fields.push({...fieldProps,fieldName:field})
   }
   return formGroupFields;
-  // this.favBooks = this.favBooks.concat({
-  //   title: eventData.title,
-  // });
+
 }
 
 }

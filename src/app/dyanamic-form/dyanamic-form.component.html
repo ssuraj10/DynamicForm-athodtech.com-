@@ -34,32 +34,43 @@
                             </span>
                         </div>
                     </ng-container>
-                    <ng-container [ngSwitch]="field.type">
-                        <div *ngSwitchCase="'Single Choice'" class="inline-block relative w-64">
-                            <select [formControlName]="field.fieldName"
-                                class="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
-                                <option *ngFor="let data of field.subItems" [value]="data.label">{{data.label}}</option>
 
-                            </select>
-                            <div
-                                class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20">
-                                    <path
-                                        d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                                </svg>
-                            </div>
+
+                    <ng-container [ngSwitch]="field.type">
+
+                        <div *ngSwitchCase="'Single Choice'" class="inline-block relative w-64">
+
+                            <ng-select  [formControlName]="field.label"  [closeOnSelect]="false" [items]="field.subItems" bindLabel="label" bindValue="id" [multiple]="true"
+                                [selectableGroup]="true" placeholder="Select">
+                                
+                                <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <div class="row">
+                                        <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"
+                                            [ngModelOptions]="{standalone: true}" />
+                                        {{item$['label']}}
+                                    </div>
+                                </ng-template>
+                                <ng-template ng-optgroup-tmp let-item="item" let-item$="item$" let-index="index">
+                                    <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" /> Select All
+                                </ng-template>
+                               
+                            </ng-select>
+
+                          
+
                         </div>
                     </ng-container>
                     <p *ngIf="form.controls[field.label].dirty && !form.controls[field.label].valid"
                         class="text-red-500">*{{field.label}} is required</p>
-                        
-                        <div *ngIf="form.controls[field.label].errors?.minlength">
-                            {{field.label}} must be at least {{form.controls[field.label].errors?.minlength.requiredLength}} characters long.
-                       </div> 
-                       <div *ngIf="form.controls[field.label].errors?.maxlength">
-                        {{field.label}} not more than {{form.controls[field.label].errors?.maxlength.requiredLength}} characters long.
-                   </div> 
+
+                    <div *ngIf="form.controls[field.label].errors?.minlength">
+                        {{field.label}} must be at least {{form.controls[field.label].errors?.minlength.requiredLength}}
+                        characters long.
+                    </div>
+                    <div *ngIf="form.controls[field.label].errors?.maxlength">
+                        {{field.label}} not more than {{form.controls[field.label].errors?.maxlength.requiredLength}}
+                        characters long.
+                    </div>
 
                 </div>
 
